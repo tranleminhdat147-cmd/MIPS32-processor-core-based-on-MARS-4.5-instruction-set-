@@ -1,0 +1,32 @@
+module mem_wb (
+		input wire	RI_MEM,
+		input wire	memtoreg_MEM,
+		input wire	clk,
+		input wire	regwrite_MEM,
+		input wire	[31:0] alu_MEM,
+		input wire	[31:0] dmem_MEM,
+		input wire	[31:0] imm_MEM,
+		input wire	[4:0] WA_MEM,
+		output reg	RI_WB,
+		output reg	memtoreg_WB,
+		output reg	regwrite_WB,
+		output reg	[31:0] alu_WB,
+		output reg	[31:0] dmem_WB,
+		output reg	[31:0] imm_WB,
+		output reg	[4:0] WA_WB);
+					
+			
+always@(posedge clk)
+begin
+	begin
+	dmem_WB[31:0] <= dmem_MEM[31:0];
+	alu_WB[31:0] <= alu_MEM[31:0];
+	imm_WB[31:0] <= imm_MEM[31:0];
+	WA_WB[4:0] <= WA_MEM[4:0];
+	regwrite_WB <= regwrite_MEM;
+	RI_WB <= RI_MEM;
+	memtoreg_WB <= memtoreg_MEM;
+	end
+end
+
+endmodule 

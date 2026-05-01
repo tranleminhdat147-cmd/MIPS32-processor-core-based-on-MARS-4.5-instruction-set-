@@ -1,0 +1,56 @@
+module ex_mem (
+		input wire	memread_EX;
+		input wire	memwrite_EX;
+		input wire	clk;
+		input wire	flush_EXMEM;
+		input wire	RI_EX;
+		input wire	memtoreg_EX;
+		input wire	branch_EX;
+		input wire	jump_EX;
+		input wire	regwrite_EX;
+		input wire	regdst_EX;
+		input wire	zero_EX;
+		input wire	[15:0] alu_out_EX;
+		input wire	[7:0] Branch_add_EX;
+		input wire	[15:0] rs_EX;
+		input wire	[2:0] WA_EX;
+		output reg	memread_MEM;
+		output reg	memwrite_MEM;
+		output reg	RI_MEM;
+		output reg	memtoreg_MEM;
+		output reg	branch_MEM;
+		output reg	jump_MEM;
+		output reg	regwrite_MEM;
+		output reg	regdst_MEM;
+		output reg	zero_MEM;
+		output reg	[15:0] alu_out_MEM;
+		output reg	[7:0] Branch_add_MEM;
+		output reg	[15:0] rs_MEM;
+		output reg	[2:0] WA_MEM;);
+					
+assign	SYNTHESIZED_WIRE_13 =  ~flush_EXMEM;
+			
+always@(posedge Clock or negedge SYNTHESIZED_WIRE_13)
+begin
+		if (!SYNTHESIZED_WIRE_13)
+			begin
+			alu_out_MEM[15:0] <= 16'b0000000000000000;
+			end
+		else
+			begin
+			alu_out_MEM[15:0] <= alu_out_EX[15:0];
+			rs_MEM[15:0] <= rs_EX[15:0];
+			Branch_add_MEM[7:0] <= Branch_add_EX[7:0];
+			jump_MEM <= jump_EX;
+			WA_MEM[2:0] <= WA_EX[2:0];
+			memread_MEM <= memread_EX;
+			regwrite_MEM <= regwrite_EX;
+			regdst_MEM <= regdst_EX;
+			memwrite_MEM <= memwrite_EX;
+			memtoreg_MEM <= memtoreg_EX;
+			branch_MEM <= branch_EX;
+			RI_MEM <= RI_EX;
+			zero_MEM <= zero_EX;
+			end
+end
+endmodule 

@@ -1,0 +1,26 @@
+module EXU (input [31:0] a,
+            input [31:0] b,
+				input [4:0] shamt,
+				input [5:0] alu_control,
+				input clk,
+				input busy,
+				output zero,
+				output [31:0] result);
+wire busy_mul, busy_div;
+wire [31:0] alu_result;
+wire {31:0} mul_result;
+wire {31:0} div_result;
+
+alu alu0 (.a(a), .b(b), .shamt(shamt), .alu_control(alu_control), .zero(zero), .alu_result(alu_result));
+
+mul mul0 (.a(a), .b(b), .mul_en(alu_control), .clk(clk), .busy_mul(busy_mul), .result(mul_result));
+
+div div0 (.a(a), .b(b), .div_en(alu_control), .clk(clk), .busy_div(busy_div), .result(div_result));
+
+assign busy = busy_mul || busy_div;
+
+assign result = (alu_control = 6'h1A) ? div_result :
+                (alu_control = 6'h03) ? mul_result :
+					  alu_result;
+					  
+endmodule 

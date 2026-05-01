@@ -1,0 +1,9 @@
+module flush (input wire jump_id,
+              input wire branch_sel,
+				  output wire flush_ifid,
+				  output wire flush_idex);
+
+assign flush_ifid = jump_id | branch_sel;
+assign flush_idex = branch_sel;
+
+endmodule 

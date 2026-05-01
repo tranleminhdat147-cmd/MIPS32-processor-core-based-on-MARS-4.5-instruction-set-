@@ -1,0 +1,102 @@
+module id_ex (
+			input wire	Clock,
+			input wire	flush_IDEX,
+			input wire	aluop1_REG,
+			input wire	aluop0_REG,
+			input wire	aluscr_REG,
+			input wire	jump_REG,
+			input wire	branch_REG,
+			input wire	memread_REG,
+			input wire	memwrite_REG,
+			input wire	memtoreg_REG,
+			input wire	regdst_REG,
+			input wire  zero_extend_REG
+			input wire	RI_REG,
+			input wire	regwrite_REG,
+			input wire	aluscrA_REG,
+			input wire	aluscrB_REG,
+			input wire	Stall,
+			input wire	[5:0] Fuction_bits,
+			input wire	[31:0] imm_REG,
+			input wire	[31:0] rs_REG,
+			input wire	[31:0] rt_REG,
+			input wire  [4:0] shamt_REG;
+			input wire	[4:0] WA_RI,
+			input wire	[4:0] WA_RRI,
+			input wire	[4:0] WA_RRR,
+			output reg	aluop1_EX,
+			output reg	aluop0_EX,
+			output reg	aluscr_EX,
+			output reg	jump_EX,
+			output reg	branch_EX,
+			output reg	memread_EX,
+			output reg	memwrite_EX,
+			output reg	memtoreg_EX,
+			output reg	RI_EX,
+			output reg	regdst_EX,
+			output reg	regwrite_EX,
+			output reg	aluscrA_EX,
+			output reg	aluscrB_EX,
+			output reg  zero_extend_EX
+			output reg	[5:0] Fuction_bits_ex,
+			output reg	[31:0] imm_EX,
+			output reg	[31:0] rs_EX,
+			output reg	[31:0] rt_EX,
+			input wire  [4:0] shamt_EX;
+			output reg	[4:0] WA_RI_EX,
+			output reg	[4:0] WA_RRI_EX,
+			output reg	[4:0] WA_RRR_EX,
+         wire	clk,);
+			
+assign reset = = ~(flush_IDEX | Stall);
+			
+always@(posedge clk)
+begin
+	begin
+	rs_EX[31:0] <= rs_REG[31:0];
+	rt_EX[31:0] <= rt_REG[31:0];
+	imm_EX[31:0] <= imm_REG[31:0];
+	WA_RI_EX[4:0] <= WA_RI[4:0];
+	WA_RRI_EX[4:0] <= WA_RRI[4:0];
+	WA_RRR_EX[4:0] <= WA_RRR[4:0];
+	Fuction_bits_ex[5:0] <= Fuction_bits[5:0];
+end
+
+always@(posedge clk or negedge reset)
+begin
+if (!reset)
+	begin
+	regwrite_EX <= 0;
+	regdst_EX <= 0;
+	RI_EX <= 0;
+	aluscr_EX <= 0;
+	aluscrA_EX <= 0;
+	aluscrB_EX <= 0;
+	memread_EX <= 0;
+	memwrite_EX <= 0;
+	memtoreg_EX <= 0;
+	branch_EX <= 0;
+	aluop0_EX <= 0;
+	aluop1_EX <= 0;
+	jump_EX <= 0;
+	zero_extend_EX <= 0
+	end
+else
+	begin
+	regwrite_EX <= regwrite_REG;
+	regdst_EX <= regdst_REG;
+	RI_EX <= RI_REG;
+	aluscr_EX <= aluscr_REG;
+	aluscrA_EX <= aluscrA_REG;
+	aluscrB_EX <= aluscrB_REG;
+	memread_EX <= memread_REG;
+	memwrite_EX <= memwrite_REG;
+	memtoreg_EX <= memtoreg_REG;
+	branch_EX <= branch_REG;
+	aluop0_EX <= aluop0_REG;
+	aluop1_EX <= aluop1_REG;
+	jump_EX <= jump_REG;
+	zero_extend_EX <= zero_extend_REG
+	end 
+end 
+endmodule 

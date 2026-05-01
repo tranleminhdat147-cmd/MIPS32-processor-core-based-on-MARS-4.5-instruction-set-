@@ -1,0 +1,18 @@
+module if_id (
+              input wire [31:0] instr_IF,
+				  input wire Stall,
+				  input wire flush_IFREG,
+				  input clk,
+				  output reg [31:0] instr_REG);
+				  
+always @ (posedge clk) begin
+       if (flush_IFREG) begin
+		     instr_REG <= 0;
+		 end
+		 
+		 else if (!Stall) begin
+		     instr_REG <= instr_IF;
+		 end
+end
+
+endmodule

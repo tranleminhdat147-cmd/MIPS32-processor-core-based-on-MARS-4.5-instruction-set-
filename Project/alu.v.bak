@@ -1,0 +1,28 @@
+module alu (
+    input  [31:0] a,           
+    input  [31:0] b,           
+    input  [5:0]  alu_control, 
+    output reg [31:0] alu_result,
+    output zero
+);
+
+assign zero = (alu_result == 32'b0);
+
+    always @(*) begin
+        case (alu_control)
+            6'h20: alu_result = a + b;          
+            6'h22: alu_result = a - b;          
+            6'h24: alu_result = a & b;          
+            6'h25: alu_result = a | b;          
+            6'h27: alu_result = ~(a | b);       
+            6'h26: alu_result = a ^ b;          
+            6'h2A: alu_result = (a < b) ? 32'd1 : 32'd0; 
+            6'h00: alu_result = b << a[4:0];    
+            6'h02: alu_result = b >> a[4:0];    
+            6'h1A: alu_result = (b != 0) ? (a / b) : 32'b0; 
+            6'h03: alu_result = a * b;          // con Dat Dien
+            default: alu_result = 32'b0;
+        endcase
+    end
+
+endmodule

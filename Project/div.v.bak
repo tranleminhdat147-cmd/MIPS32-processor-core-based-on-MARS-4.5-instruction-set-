@@ -1,0 +1,33 @@
+module div      (input[31:0] a,
+                input[31:0] b,
+					 input[5:0] div_en,
+					 input clk,
+					 output busy_mul,
+					 output [31:0] result);
+reg [1:0] count;		 
+assign busy_mul = (count < 2'd3 && mul_en == 6'h1A);
+always @ (posedge clk) begin
+  if (mul_en == 6'h1A) begin
+       if(count < 2'd3) begin
+		    count <= count + 2'b1;
+		 end 
+		 else begin
+		    count <= 2'b0; 
+		 end
+	end
+	else begin 
+	    count <= 0;
+	end 
+end
+
+lpm_divide0	lpm_divide0_inst (
+	.clock (clk),
+	.denom (a),
+	.numer (b),
+	.quotient (result)
+	);
+
+
+endmodule 
+
+					 

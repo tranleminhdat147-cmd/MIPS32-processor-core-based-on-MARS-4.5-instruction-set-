@@ -1,0 +1,27 @@
+module Stall(
+    input  wire        IDEX_Regwrite,
+    input  wire        EXMEM_Regwrite6,
+    input  wire [2:0]  EXMEM_rd,
+    input  wire [2:0]  IDEX_rd,
+    input  wire [2:0]  IFID_rsa,
+    input  wire [2:0]  IFID_rsb,
+    output wire        Stall
+);
+
+wire ex_hazard;
+assign ex_hazard =
+    IDEX_Regwrite &&
+    (IDEX_rd != 3'b000) &&
+    ((IDEX_rd == IFID_rsa) || (IDEX_rd == IFID_rsb));
+
+
+wire mem_hazard;
+assign mem_hazard =
+    EXMEM_Regwrite6 &&
+    (EXMEM_rd != 3'b000) &&
+    ((EXMEM_rd == IFID_rsa) || (EXMEM_rd == IFID_rsb));
+
+
+assign Stall = ex_hazard | mem_hazard;
+
+endmodule
